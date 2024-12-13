@@ -10,6 +10,7 @@ const HomePage: React.FC = () => {
         threshold: 0.2,
     });
     const navigate = useNavigate(); // Initialize navigate
+    const [toastVisible, setToastVisible] = useState(false);
 
     const [aboutRef, aboutInView] = useInView({
         triggerOnce: false,
@@ -60,6 +61,13 @@ const HomePage: React.FC = () => {
             window.location.href = "/#contact-section";
         }
     };
+
+    const handleFormSubmit = (event: React.FormEvent) => {
+        event.preventDefault(); // Prevent default form submission
+        setToastVisible(true); // Show toast
+        setTimeout(() => setToastVisible(false), 3000); // Hide toast after 3 seconds
+    };
+
 
     return (
         <div className="bg-stone-900 overflow-hidden">
@@ -228,6 +236,17 @@ const HomePage: React.FC = () => {
                 animate="visible"
                 variants={sectionVariants}
             >
+                {toastVisible && (
+                    <div
+                        className="fixed top-20 left-4 bg-[#292524] text-[#f2e9da] border border-[#bd976d] rounded-md px-6 py-3 shadow-lg z-50"
+                        style={{
+                            textShadow: "1px 1px 2px rgba(0, 0, 0, 0.6)",
+                            maxWidth: "80%", // Adjust width for responsiveness
+                        }}
+                    >
+                        Your message    has been sent successfully!
+                    </div>
+                )}
 
                 <div className="flex justify-center">
                     <div className="w-full max-w-3xl  p-8  shadow-lg bg-[#292524] border border-[rgba(255,255,255,0.2)]">
@@ -236,7 +255,8 @@ const HomePage: React.FC = () => {
                         </h2>
 
 
-                        <form className="max-w-md mx-auto">
+                        <form className="max-w-md mx-auto" onSubmit={handleFormSubmit}>
+
 
 
                             <style>
